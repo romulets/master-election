@@ -1,43 +1,36 @@
 package masterelection;
 
-import masterelection.com.listener.AmIMasterListener;
-import masterelection.com.listener.LifeCheckListener;
+import masterelection.com.listener.DirectMessageListener;
+import masterelection.com.listener.GroupMessagesListener;
 import masterelection.com.message.SetupMasterMessage;
 import masterelection.com.verifier.LifeCheckVerifier;
 import masterelection.domain.Node;
-import masterelection.domain.NodeState;
 
 public class Instance extends Thread {
 	
-	AmIMasterListener aimListener;
-	LifeCheckListener lcListener;
+	DirectMessageListener directListener;
+	GroupMessagesListener groupListener;
 	LifeCheckVerifier lcVerifier;
 	
 	private Node node;
 	
 	public Instance () {
 		node = new Node();
-		aimListener = new AmIMasterListener(node);
-		lcListener = new LifeCheckListener(node);
+		directListener = new DirectMessageListener(node);
+		groupListener = new GroupMessagesListener(node);
 		lcVerifier = new LifeCheckVerifier(node);
 	}
 	
 	@Override
 	public void run() {
-		aimListener.start();
-		lcListener.start();
+		directListener.start();
+		groupListener.start();
 		lcVerifier.start();
 		verifyCoordination();
 	}
 	
 	private void verifyCoordination() {
 		SetupMasterMessage msg = new SetupMasterMessage(node);
-		
 		msg.start();
-		try {
-			msg.join();
-		} catch (InterruptedException e) {
-			node.setState(NodeState.SLAVE);
-		}
 	}
 }
