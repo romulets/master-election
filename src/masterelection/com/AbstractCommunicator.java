@@ -29,15 +29,7 @@ public abstract class AbstractCommunicator extends Thread {
 		System.out.println(String.format("SEND \t\t [%s:%d] \t %s", addr.toString(), port, msgStr));
 	}
 	
-	protected Message receiveDirectMessage() throws IOException  {
-		return receive(node.getUniSocket());
-	}
-
-	protected Message receiveFromGroup() throws IOException {
-		return receive(node.getMultiSocket());
-	}
-	
-	private synchronized Message receive(DatagramSocket socket) throws IOException {
+	protected Message receive(DatagramSocket socket) throws IOException {
 		byte[] buffer = new byte[1024];
 		DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
 

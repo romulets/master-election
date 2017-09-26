@@ -7,10 +7,13 @@ import java.net.MulticastSocket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 
+import masterelection.com.MessageType;
+
 public class Node {
 
 	private int id;
 	private NodeState state;
+	private MessageType awaitingMessage;
 	private MulticastSocket multiSocket;
 	private DatagramSocket uniSocket;
 
@@ -22,6 +25,7 @@ public class Node {
 		initMultiSocket();
 		initUniSocket();
 		id = uniSocket.getLocalPort();
+		awaitingMessage = MessageType.IDLE;
 
 		System.out.println("I AM " + id);
 	}
@@ -104,4 +108,13 @@ public class Node {
 	public static int getGroupPort() {
 		return 8083;
 	}
+
+	public MessageType getAwaitingMessage() {
+		return awaitingMessage;
+	}
+
+	public void setAwaitingMessage(MessageType awaitingMessage) {
+		this.awaitingMessage = awaitingMessage;
+	}
+	
 }

@@ -7,6 +7,7 @@ public enum MessageType {
 	START_ELECTION,
 	I_AM_BIGGER,
 	I_AM_MASTER,
-	IS_THERE_MASTER
+	IS_THERE_MASTER,
+	IDLE
 	
 }

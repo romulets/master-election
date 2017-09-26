@@ -12,6 +12,13 @@ public class IAmMasterMesssage extends AbstractCommunicator {
 	private InetAddress addr;
 	private int port;
 	
+	public IAmMasterMesssage(Node node) {
+		super(node);
+		
+		this.addr = null;
+		this.port = -1;
+	}
+	
 	public IAmMasterMesssage(Node node, InetAddress addr, int port) {
 		super(node);
 		this.addr = addr;
@@ -21,7 +28,13 @@ public class IAmMasterMesssage extends AbstractCommunicator {
 	@Override
 	public void run() {
 		try {
-			send(MessageType.I_AM_MASTER, addr, port);
+			
+			if (addr != null) {
+				send(MessageType.I_AM_MASTER, addr, port);
+			} else {
+				send(MessageType.I_AM_MASTER);
+			}			
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -4,9 +4,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 
 import masterelection.com.AbstractCommunicator;
-import masterelection.com.Message;
 import masterelection.com.MessageType;
-import masterelection.com.message.StartElectionMessage;
 import masterelection.domain.Node;
 import masterelection.domain.NodeState;
 
@@ -40,26 +38,11 @@ public class LifeCheckVerifier extends AbstractCommunicator{
 			return;
 		
 		try {
-			send(MessageType.ARE_YOU_ALIVE, masterAddr, masterPort);
-			
-			Message msg = receiveDirectMessage();
-			
-			if (msg.getType() != MessageType.I_AM_ALIVE && msg.getPort() != masterPort) {
-				startElection();
-			}
-			
+			getNode().setAwaitingMessage(MessageType.I_AM_ALIVE);
+			send(MessageType.ARE_YOU_ALIVE, masterAddr, masterPort);			
 		} catch (IOException e) {
-			startElection();
+			return;
 		}
-	}
-	
-	private void startElection() {
-		getNode().setState(NodeState.IN_ELECTION);
-		
-		StartElectionMessage msg = new StartElectionMessage(getNode());
-		msg.start();
-	}
-
-	
+	}	
 	
 }
