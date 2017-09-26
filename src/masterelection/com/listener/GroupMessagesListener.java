@@ -48,7 +48,7 @@ public class GroupMessagesListener extends AbstractCommunicator {
 		}
 
 		if (msg.getType() == MessageType.START_ELECTION && getNode().getId() > msg.getPort()) {
-			send(MessageType.I_AM_BIGGER);
+			send(MessageType.I_AM_BIGGER, msg.getAddr(), msg.getPort());
 			return;
 		}
 		

@@ -33,9 +33,7 @@ public class DirectMessageListener extends AbstractCommunicator {
 					getNode().setState(NodeState.MASTER);
 					IAmMasterMesssage iamMsg = new IAmMasterMesssage(getNode());
 					iamMsg.start();
-				}
-				
-				
+				}		
 				
 				getNode().setAwaitingMessage(MessageType.IDLE);
 			}
@@ -49,6 +47,7 @@ public class DirectMessageListener extends AbstractCommunicator {
 	private void receiveMessages() throws IOException {
 		
 		Message msg = receiveDirectMessage();
+		
 		
 		switch(getNode().getState()) {
 		case MASTER:
@@ -93,8 +92,6 @@ public class DirectMessageListener extends AbstractCommunicator {
 		
 		if (msg.getType() == MessageType.I_AM_ALIVE && msg.getPort() == masterPort) {
 			getNode().setAwaitingMessage(MessageType.IDLE);
-		} else {
-			beginElection();
 		}
 	}
 	
